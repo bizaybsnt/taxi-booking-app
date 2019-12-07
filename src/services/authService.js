@@ -1,5 +1,5 @@
 class AuthService {
-  isAuthenticated = false;
+  isAuthenticated = true;
   isDriver = false;
   isPassenger = false;
 

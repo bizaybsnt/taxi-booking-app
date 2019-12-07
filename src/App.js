@@ -4,6 +4,7 @@ import { BrowserRouter } from 'react-router-dom';
 // import store from './store';
 import ErrorBoundary from './errorBoundary';
 import Route from './routes/route';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
   return (
