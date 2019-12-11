@@ -3,19 +3,19 @@ import { Map } from '../../components/Map';
 import { Header } from '../../components/header';
 import { Marker, Popup } from 'react-leaflet';
 
-class Driiver extends Component {
+class User extends Component {
   render() {
     return (
       <React.Fragment>
         <Header />
-        {/* <Map>
+        <Map>
           <Marker position={[27.666, 85.3227]}>
             <Popup>Drivers Location</Popup>
           </Marker>
-        </Map> */}
+        </Map>
       </React.Fragment>
     );
   }
 }
 
-export default Driiver;
+export default User;

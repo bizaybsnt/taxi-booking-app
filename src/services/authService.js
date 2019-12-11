@@ -1,9 +1,9 @@
 class AuthService {
   isAuthenticated = true;
   isDriver = false;
-  isPassenger = false;
+  isPassenger = true;
 
-  authenticate = (userType, cb) => {
+  authenticate = ({userType, inputs}, cb) => {
     if (userType === 'driver') {
       this.driverAuthenticate(cb);
     } else {

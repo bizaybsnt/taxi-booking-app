@@ -1,24 +1,10 @@
 import React from 'react';
-import { useHistory } from 'react-router-dom';
 import authService from '../../services/authService';
 import DriverHome from '../driver/driver';
-import PassengerHome from '../passenger/passenger';
+import UserHome from '../user/user';
 
 const Home = () => {
-  let history = useHistory();
-  return (
-    <div>
-      {authService.isDriver && <DriverHome />}
-      {authService.isPassenger && <PassengerHome />}
-      <button
-        onClick={() => {
-          authService.signout(() => history.push('/'));
-        }}
-      >
-        Sign out
-      </button>
-    </div>
-  );
+  return <div>{authService.isDriver ? <DriverHome /> : <UserHome />}</div>;
 };
 
 export default Home;
