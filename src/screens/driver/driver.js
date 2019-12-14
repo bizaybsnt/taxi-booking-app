@@ -3,7 +3,7 @@ import { Map } from '../../components/Map';
 import { Header } from '../../components/header';
 import { Marker, Popup } from 'react-leaflet';
 
-class Driiver extends Component {
+class Driver extends Component {
   render() {
     return (
       <React.Fragment>
@@ -18,4 +18,4 @@ class Driiver extends Component {
   }
 }
 
-export default Driiver;
+export default Driver;

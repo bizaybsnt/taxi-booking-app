@@ -1,0 +1,7 @@
+showPassengerLocation
+startRide
+EndRide
+
+
+getProfile
+getRideHistory
