@@ -31,9 +31,11 @@ class userService {
   };
 
   getRideInfo = async query => {
-    return {
-      pickUp: { lat: 27.695051796192736, lng: 85.34427523612977 },
-      drop: { lat: 27.69491405083671, lng: 85.34598112106325 }
+    return { 
+      pickUp: 'dhapakhel',
+      drop: ' lagankhel',
+      driverId: 1,
+      remark: { rideStatus: 'requested' }
     };
   };
 
@@ -52,9 +54,18 @@ class userService {
         from: { lat: 27.695051796192736, lng: 85.34427523612977 },
         to: { lat: 27.69491405083671, lng: 85.34598112106325 },
         distance: '22m',
-        remark: 'completed'
+        remark: { rideStatus: 'requested' }
       }
     ];
+  };
+
+  postRideRequest = async () => {
+    return {
+      pickUp: { lat: 27.695051796192736, lng: 85.34427523612977 },
+      drop: { lat: 27.69491405083671, lng: 85.34598112106325 },
+      driverId: 2,
+      remark: { rideStatus: 'requested' }
+    };
   };
 }
 

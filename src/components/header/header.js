@@ -5,10 +5,11 @@ import { withRouter } from 'react-router-dom';
 
 class Header extends Component {
   render() {
+    const { userType } = this.props;
     return (
       <nav className="navbar navbar-expand-lg navbar-dark bg-dark justify-content-between">
         <Link className="navbar-brand" to="/">
-          Taxi Booking App
+          Taxi Booking App {userType && `(${userType})`}
         </Link>
 
         <ul className="nav navbar-nav navbar-right">
@@ -18,7 +19,11 @@ class Header extends Component {
             </NavLink>
           </li>
           <li className="nav-item">
-            <NavLink className="nav-link" activeClassName="active" to="/profile">
+            <NavLink
+              className="nav-link"
+              activeClassName="active"
+              to="/profile"
+            >
               Profile
             </NavLink>
           </li>

@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Marker, Popup } from 'react-leaflet';
 import { Map } from '../../components/Map';
 import { Header } from '../../components/header';
-import { carIcon, pickUpIcon, dropIcon } from '../../components/mapIcons';
+import { carIcon } from '../../components/mapIcons';
 import * as UserAction from './userAction';
 import UserService from '../../services/userService';
 
@@ -18,9 +18,7 @@ class User extends Component {
 
     this.state = {
       mapCenter: [0, 0],
-      pickUp: [0, 0],
-      drop: [0, 0],
-      showTooltip: true,
+      rideStatus: null,
       locationPermission: false
     };
   }
@@ -47,10 +45,46 @@ class User extends Component {
   };
 
   bookRide = () => {
+    this.props.postRideRequest();
+    this.setState({
+      rideStatus: 'requested'
+    });
     //submit ride post request
-  }
+  };
+
+  cancelRide = () => {
+    //cancel post request for particular id
+  };
+
+  getButton = () => {
+    const { rideStatus } = this.state;
+
+    if (rideStatus === 'requested') {
+      return (
+        <React.Fragment>
+          <button className="btn btn-primary" disabled>
+            Requested
+          </button>{' '}
+          <button className="btn btn-danger" onClick={this.cancelRide}>
+            Cancel Request
+          </button>
+        </React.Fragment>
+      );
+    }
+    return (
+      <button className="btn btn-primary" onClick={this.bookRide}>
+        Book Now
+      </button>
+    );
+  };
 
   renderDriverMarker = driver => {
+    const { rideInfo } = this.props;
+    let ride;
+    if (rideInfo.driverId === driver.id) {
+      ride = rideInfo;
+    }
+    console.log(rideInfo);
     return (
       <Marker
         icon={carIcon}
@@ -73,59 +107,34 @@ class User extends Component {
                 <td>Taxi Number</td>
                 <td>{driver.taxiNo}</td>
               </tr>
+              <tr>
+                <td>Pick Up</td>
+                <td>
+                  <input
+                    className="form-control w-auto"
+                    type="text"
+                    name="pickUp"
+                    defaultValue={ride && ride.pickUp}
+                  />
+                </td>
+              </tr>
+              <tr>
+                <td>Drop</td>
+                <td>
+                  <input
+                    className="form-control w-auto"
+                    type="text"
+                    name="drop"
+                    
+                    defaultValue={ride && ride.drop}
+                  />
+                </td>
+              </tr>
             </tbody>
           </table>
-          <button className="btn btn-primary" onClick={this.bookRide}>
-            Book Now
-          </button>
+          {this.getButton()}
         </Popup>
       </Marker>
-    );
-  };
-
-  renderRideMarker = () => {
-    const { showTooltip, ownLocation } = this.state;
-    const { pickUp, drop } = this.props;
-    const dropPos = drop ? [drop.lat, drop.lng] : ownLocation;
-    const pickUpPos = pickUp ? [pickUp.lat, pickUp.lng] : ownLocation;
-    return (
-      <React.Fragment>
-        <Marker
-          icon={dropIcon}
-          draggable={true}
-          position={dropPos}
-          onDragEnd={d =>
-            this.setState({
-              showTooltip: false,
-              drop: [d.target._latlng.lat, d.target._latlng.lng],
-              mapCenter: [d.target._latlng.lat, d.target._latlng.lng]
-            })
-          }
-        >
-          <Popup>
-            <h4>Drop Location</h4>
-            <p>Drag to change location</p>
-          </Popup>
-        </Marker>
-        <Marker
-          icon={pickUpIcon}
-          draggable={true}
-          position={pickUpPos}
-          ref={ref => ref && showTooltip && ref.leafletElement.openPopup()}
-          onDragEnd={d =>
-            this.setState({
-              showTooltip: false,
-              pickUp: [d.target._latlng.lat, d.target._latlng.lng],
-              mapCenter: [d.target._latlng.lat, d.target._latlng.lng]
-            })
-          }
-        >
-          <Popup>
-            <h4>Pick Up Location</h4>
-            <p>Drag to change location</p>
-          </Popup>
-        </Marker>
-      </React.Fragment>
     );
   };
 
@@ -141,7 +150,6 @@ class User extends Component {
           locationPermission={locationPermission}
         >
           {driverLocation.map(driver => this.renderDriverMarker(driver))}
-          {this.renderRideMarker()}
         </Map>
       </React.Fragment>
     );
@@ -150,8 +158,7 @@ class User extends Component {
 
 const mapStateToProps = state => ({
   driverLocation: state.user.driverLocation,
-  pickUp: state.user.rideInfo.pickUp,
-  drop: state.user.rideInfo.drop
+  rideInfo: state.user.rideInfo
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -166,6 +173,15 @@ const mapDispatchToProps = dispatch => ({
   },
   getRideInfo: () => {
     UserService.getRideInfo()
+      .then(response => {
+        dispatch(UserAction.rideInfoFetched(response));
+      })
+      .catch(error => {
+        dispatch(UserAction.rideInfoError({ error }));
+      });
+  },
+  postRideRequest: () => {
+    UserService.postRideRequest()
       .then(response => {
         dispatch(UserAction.rideInfoFetched(response));
       })
