@@ -6,7 +6,7 @@ import MarkerWithPopup from './marker';
 const mapTile = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
 const mapAttr =
   '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
-const zoomLevel = 12;
+const zoomLevel = 14;
 const mapStyle = { height: '500px', margin: '20px' };
 
 const MapComponent = props => {

@@ -1,7 +1,7 @@
 class AuthService {
   isAuthenticated = true;
-  isDriver = true;
-  isPassenger = false;
+  isDriver = false;
+  isPassenger = true;
 
   authenticate = ({ userType, inputs }, cb) => {
     if (userType === 'driver') {

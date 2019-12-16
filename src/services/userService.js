@@ -11,23 +11,22 @@
 import Api from './api';
 
 class userService {
+
+  register = async data => {
+    try {
+			let res = await Api.post('/user/register', data);
+			return res.body;
+		} catch (error) {
+			return false;
+		}
+  }
   getDriverLocation = async query => {
-    return [
-      {
-        id: 1,
-        taxiNo: '1234',
-        phone: '9841989898',
-        name: 'John Doe',
-        location: { lat: 27.695051796192736, lng: 85.34427523612977 }
-      },
-      {
-        id: 2,
-        taxiNo: '567',
-        phone: '9841989898',
-        name: 'Mary Com',
-        location: { lat: 27.69491405083671, lng: 85.34598112106325 }
-      }
-    ];
+    try {
+      let res = await Api.get('/user/taxi/nearBy');
+			return res.body;
+		} catch (error) {
+			return false;
+    }
   };
 
   getRideInfo = async query => {
@@ -59,13 +58,14 @@ class userService {
     ];
   };
 
-  postRideRequest = async () => {
-    return {
-      pickUp: { lat: 27.695051796192736, lng: 85.34427523612977 },
-      drop: { lat: 27.69491405083671, lng: 85.34598112106325 },
-      driverId: 2,
-      remark: { rideStatus: 'requested' }
-    };
+  postRideRequest = async (data) => {
+    try {
+			let res = await Api.post('/', data);
+			return res.body;
+		} catch (error) {
+			return false;
+		}
+
   };
 }
 

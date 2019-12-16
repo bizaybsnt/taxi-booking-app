@@ -84,7 +84,6 @@ class User extends Component {
     if (rideInfo.driverId === driver.id) {
       ride = rideInfo;
     }
-    console.log(rideInfo);
     return (
       <Marker
         icon={carIcon}
@@ -97,7 +96,7 @@ class User extends Component {
             <tbody>
               <tr>
                 <td>Name</td>
-                <td>{driver.name}</td>
+                <td>{driver.full_name}</td>
               </tr>
               <tr>
                 <td>Phone</td>
@@ -105,7 +104,7 @@ class User extends Component {
               </tr>
               <tr>
                 <td>Taxi Number</td>
-                <td>{driver.taxiNo}</td>
+                <td>{driver.taxi_no}</td>
               </tr>
               <tr>
                 <td>Pick Up</td>

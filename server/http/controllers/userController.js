@@ -1,4 +1,4 @@
-const { User, Ride } = require('../models');
+const { User, Ride, Driver } = require('../models');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
@@ -78,9 +78,10 @@ exports.getProfile = (req, res) => {
 };
 
 exports.getTaxi = (req, res) => {
-  User.findOne().then(user => {
-    const { full_name, email, phone } = user;
-    res.json({ full_name, email, phone });
+  Driver.findAll({
+    attributes: ['id', 'taxi_no', 'phone', 'full_name', 'location']
+  }).then(driver => {
+    res.json(driver);
   });
 };
 
