@@ -13,7 +13,7 @@ router.use((req, res, next) => {
   next();
 });
 
-router.get('/login', UserController.login);
+router.post('/login', UserController.login);
 router.post('/register', UserController.register);
 router.get('/profile', [isLoggedIn, isUser], UserController.getProfile);
 

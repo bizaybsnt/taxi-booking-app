@@ -13,7 +13,7 @@ router.use((req, res, next) => {
   next();
 });
 
-router.get('/login', Driver.login);
+router.post('/login', Driver.login);
 router.post('/register', Driver.register);
 router.get('/profile', [isLoggedIn, isDriver], Driver.getProfile);
 

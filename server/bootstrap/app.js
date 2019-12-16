@@ -3,9 +3,18 @@ require('dotenv').config();
 const express = require('express');
 
 const app = express();
+const bodyParser = require('body-parser');
 
 const user = require('../http/routes/userApi');
 const driver = require('../http/routes/driverApi');
+
+
+app.use(bodyParser.json());
+app.use(
+  bodyParser.urlencoded({
+    extended: true
+  })
+);
 
 app.use('/api/user', user);
 app.use('/api/driver', driver);
