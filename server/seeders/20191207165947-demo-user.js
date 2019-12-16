@@ -5,11 +5,12 @@ const saltRounds = 10;
 module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.bulkInsert(
-      'users',
+      'Users',
       [
         {
-          fullName: 'John Doe',
+          full_name: 'John Doe',
           email: 'john@gmail.com',
+          phone: '9847474747',
           password: bcrypt.hashSync('password', saltRounds)
         }
       ],

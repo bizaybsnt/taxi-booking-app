@@ -13,6 +13,7 @@
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "leaflet": "^1.6.0",
+    "nodemon": "^2.0.2",
     "pg": "^7.14.0",
     "pg-hstore": "^2.3.3",
     "react": "^16.12.0",
@@ -30,6 +31,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
+    "start:server": "NODE_PATH=src/ NODE_ENV=development DEBUG=apicache,express*  nodemon --inspect -w server/ server/index.js --trace-sync-io",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"

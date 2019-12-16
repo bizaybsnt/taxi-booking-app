@@ -1,21 +1,13 @@
 module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.bulkInsert(
-      'ride',
+      'Rides',
       [
         {
-          from: JSON.stringify({
-            lat: '27.712020',
-            long: '85.312950',
-            place: 'Dhapakhel'
-          }),
-          to: JSON.stringify({
-            lat: '27.712020',
-            long: '85.312950',
-            place: 'Dhapakhel'
-          }),
-          userId: 1,
-          driverId: 1,
+          from: 'Dhapakhel',
+          to: 'Lagankhel',
+          user_id: 1,
+          driver_id: 1,
           remarks: JSON.stringify({ rideStatus: 'called' })
         }
       ],

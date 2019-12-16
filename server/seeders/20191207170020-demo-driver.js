@@ -4,14 +4,15 @@ const saltRounds = 10;
 module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.bulkInsert(
-      'drivers',
+      'Drivers',
       [
         {
-          fullName: 'Driver John',
+          full_name: 'Driver John',
           email: 'driver@gmail.com',
-          licenseNo: '12345',
-          taxiNo: 'BA 1 Pa 1234',
-          available: true,
+          phone: '9847474747',
+          license_no: '12345',
+          taxi_no: 'BA 1 Pa 1234',
+          availability: true,
           location: JSON.stringify({
             lat: '27.712020',
             long: '85.312950',
