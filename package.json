@@ -34,6 +34,8 @@
   "scripts": {
     "start": "react-scripts start",
     "start:server": "NODE_PATH=src/ NODE_ENV=development DEBUG=apicache,express*  nodemon --inspect -w server/ server/index.js --trace-sync-io",
+    "migrate": "sequelize db:migrate --migrations-path ./server/migrations --config ./server/config/config.js",
+    "seed": "sequelize db:seed:all --seeders-path ./server/seeders --config ./server/config/config.js",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"

@@ -15,7 +15,7 @@ module.exports = {
           availability: true,
           location: JSON.stringify({
             lat: '27.712020',
-            long: '85.312950',
+            lng: '85.312950',
             place: 'Dhapakhel'
           }),
           password: bcrypt.hashSync('password', saltRounds)
