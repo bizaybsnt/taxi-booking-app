@@ -10,7 +10,7 @@ exports.login = (req, res) => {
     console.log('User Found: ', user);
     if (user === null) {
       res.status(401).json({
-        sucess: false,
+        success: false,
         token: null,
         err: 'Invalid Credentials'
       });
@@ -52,7 +52,7 @@ exports.register = (req, res) => {
   }).then(user => {
     if (user) {
       res.json({
-        sucess: false,
+        success: false,
         err: 'Email Already Exist'
       });
     } else {
@@ -64,7 +64,7 @@ exports.register = (req, res) => {
           full_name,
           phone
         }).then(result => {
-          res.json({ sucess: true, err: null });
+          res.json({ success: 'Account Created Successfully', err: null });
         });
       });
     }

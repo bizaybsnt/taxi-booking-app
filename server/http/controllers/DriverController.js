@@ -13,7 +13,7 @@ exports.login = (req, res) => {
     console.log('driver Found: ', driver);
     if (driver === null) {
       res.status(401).json({
-        sucess: false,
+        success: false,
         token: null,
         err: 'Invalid Credentials'
       });
@@ -38,7 +38,7 @@ exports.login = (req, res) => {
       } else {
         console.log('Entered Password and Hash do not match!');
         res.status(401).json({
-          sucess: false,
+          success: false,
           token: null,
           err: 'Entered Password and Hash do not match!'
         });
@@ -66,7 +66,7 @@ exports.register = (req, res) => {
   }).then(driver => {
     if (driver) {
       res.json({
-        sucess: false,
+        success: false,
         err: 'User Already Exist'
       });
     } else {
@@ -82,7 +82,7 @@ exports.register = (req, res) => {
           availability,
           location
         }).then(result => {
-          res.json({ sucess: true, err: null });
+          res.json({ success: "Driver user created successfully", err: null });
         });
       });
     }

@@ -1,36 +1,25 @@
-// getUserRoute
-// postUserRoute
-
-// startRide
-// BookRide
-// completeRide
-
-// getProfileInfo
-// getRideHistory
-
 import Api from './api';
 
 class userService {
-
   register = async data => {
     try {
-			let res = await Api.post('/user/register', data);
-			return res.body;
-		} catch (error) {
-			return false;
-		}
-  }
+      let res = await Api.post('/user/register', data);
+      return res.body;
+    } catch (error) {
+      return false;
+    }
+  };
   getDriverLocation = async query => {
     try {
       let res = await Api.get('/user/taxi/nearBy');
-			return res.body;
-		} catch (error) {
-			return false;
+      return res.body;
+    } catch (error) {
+      return false;
     }
   };
 
   getRideInfo = async query => {
-    return { 
+    return {
       pickUp: 'dhapakhel',
       drop: ' lagankhel',
       driverId: 1,
@@ -58,15 +47,7 @@ class userService {
     ];
   };
 
-  postRideRequest = async (data) => {
-    try {
-			let res = await Api.post('/', data);
-			return res.body;
-		} catch (error) {
-			return false;
-		}
-
-  };
+  postRideRequest = async data => {};
 }
 
 export default new userService();

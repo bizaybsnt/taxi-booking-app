@@ -4,20 +4,20 @@ import styled from 'styled-components';
 import userService from '../../services/userService';
 
 class UserRegister extends Component {
-  constructor() {
-    super();
-    this.handleSubmit = this.handleSubmit.bind(this);
-  }
-
-  handleSubmit(event) {
+  handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.target);
+    const query = {
+      full_name: data.get('full_name'),
+      email: data.get('email'),
+      phone: data.get('phone'),
+      password: data.get('password')
+    };
 
-    userService.postRideRequest(data);
-    // fetch('/api/form-submit-url', {
-    //   method: 'POST',
-    //   body: data
-    // });
+    userService.register(query).then(res => {
+      alert(res.sucess || res.err);
+      window.location.reload();
+    });
   }
 
   render() {
@@ -29,17 +29,42 @@ class UserRegister extends Component {
           </h2>
           <Form.Group controlId="name">
             <Form.Label>Full Name</Form.Label>
-            <Form.Control type="text" name="full_name" placeholder="Enter Full Name" required />
+            <Form.Control
+              type="text"
+              name="full_name"
+              placeholder="Enter full name"
+              required
+            />
           </Form.Group>
 
           <Form.Group controlId="email">
             <Form.Label>Email address</Form.Label>
-            <Form.Control type="email" name="email" placeholder="Enter email" required />
+            <Form.Control
+              type="email"
+              name="email"
+              placeholder="Enter email"
+              required
+            />
+          </Form.Group>
+
+          <Form.Group controlId="email">
+            <Form.Label>Phone</Form.Label>
+            <Form.Control
+              type="text"
+              name="phone"
+              placeholder="Enter phone number"
+              required
+            />
           </Form.Group>
 
           <Form.Group controlId="password">
             <Form.Label>Password</Form.Label>
-            <Form.Control type="password" name="password" placeholder="Password" required />
+            <Form.Control
+              type="password"
+              name="password"
+              placeholder="Password"
+              required
+            />
           </Form.Group>
           <Button variant="primary" type="submit">
             Register

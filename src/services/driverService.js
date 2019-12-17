@@ -1,7 +1,15 @@
-showPassengerLocation
-startRide
-EndRide
+import Api from './api';
 
+class userService {
+  register = async data => {
+    try {
+      let res = await Api.post('/driver/register', data);
+      return res.body;
+    } catch (error) {
+      return false;
+    }
+  };
+  
+}
 
-getProfile
-getRideHistory
+export default new userService();
