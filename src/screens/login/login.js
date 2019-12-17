@@ -8,8 +8,8 @@ const Login = () => {
   const history = useHistory();
   const location = useLocation();
 
-  const [email, setEmail] = useState('john@gmail.com');
-  const [password, setPassword] = useState('password');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
   const { from } = location.state || { from: { pathname: '/' } };
   const handleLogin = (userType, data) => {

@@ -44,8 +44,9 @@ class User extends Component {
     this.setState({ locationPermission: false });
   };
 
-  bookRide = () => {
-    this.props.postRideRequest();
+  bookRide = (driver) => {
+
+    this.props.postRideRequest(driver.id);
     this.setState({
       rideStatus: 'requested'
     });
@@ -56,7 +57,7 @@ class User extends Component {
     //cancel post request for particular id
   };
 
-  getButton = () => {
+  getButton = (driver) => {
     const { rideStatus } = this.state;
 
     if (rideStatus === 'requested') {
@@ -72,7 +73,7 @@ class User extends Component {
       );
     }
     return (
-      <button className="btn btn-primary" onClick={this.bookRide}>
+      <button className="btn btn-primary" onClick={() =>this.bookRide(driver)}>
         Book Now
       </button>
     );
@@ -131,7 +132,7 @@ class User extends Component {
               </tr>
             </tbody>
           </table>
-          {this.getButton()}
+          {this.getButton(driver)}
         </Popup>
       </Marker>
     );
@@ -179,8 +180,8 @@ const mapDispatchToProps = dispatch => ({
         dispatch(UserAction.rideInfoError({ error }));
       });
   },
-  postRideRequest: () => {
-    UserService.postRideRequest()
+  postRideRequest: (driverId) => {
+    UserService.postRideRequest(driverId)
       .then(response => {
         dispatch(UserAction.rideInfoFetched(response));
       })

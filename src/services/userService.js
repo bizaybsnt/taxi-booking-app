@@ -37,7 +37,6 @@ class userService {
   };
 
   getRideHistory = async () => {
-
     try {
       let res = await Api.get('/user/ride/history');
       return res.body;
@@ -46,7 +45,18 @@ class userService {
     }
   };
 
-  postRideRequest = async data => {};
+  postRideRequest = async driverId => {
+    try {
+      const data = {
+        driver_id: driverId,
+        remarks: { rideStatus: 'requested' }
+      };
+      let res = await Api.post('/taxi/book', data);
+      return res.body;
+    } catch (error) {
+      return false;
+    }
+  };
 }
 
 export default new userService();

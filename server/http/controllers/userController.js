@@ -84,9 +84,11 @@ exports.getTaxi = (req, res) => {
 };
 
 exports.bookTaxi = (req, res) => {
-  User.findOne().then(user => {
-    const { full_name, email, phone } = user;
-    res.json({ full_name, email, phone });
+  const { driver_id, remarks } = req.body;
+
+  Ride.update({ remarks }, { where: { driver_id } });
+  Ride.findAll({ where: { user_id: res.locals.user.id } }).then(ride => {
+    res.json(ride);
   });
 };
 

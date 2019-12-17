@@ -45,3 +45,11 @@ Then open http://localhost:3000/ to see the app.
 yarn start:server
 ```
 Then open http://localhost:7000/ to see the backend.
+
+
+## TODO
+
+- Show only nearBy Taxi to the user calculating the distance between user and taxi
+- update driver location and availablity from driver home
+- Use socket to get real time location data of driver
+
