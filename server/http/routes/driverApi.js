@@ -2,24 +2,24 @@ const express = require('express');
 const router = express.Router();
 const Driver = require('../controllers/DriverController');
 
-const { isLoggedIn, isDriver } = require('../middleware/auth');
+const { isLoggedIn } = require('../middleware/auth');
 
 router.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');
   res.header(
     'Access-Control-Allow-Headers',
-    'Origin, X-Requested-With, Content-Type, Accept'
+    'Origin, X-Requested-With, Content-Type, Accept, x-access-token, Authorization'
   );
   next();
 });
 
 router.post('/login', Driver.login);
 router.post('/register', Driver.register);
-router.get('/profile', [isLoggedIn, isDriver], Driver.getProfile);
+router.get('/profile', [isLoggedIn], Driver.getProfile);
 
-router.get('/passenger/nearBy', [isLoggedIn, isDriver], Driver.getNearByPassenger);
-router.put('/respond/passenger/nearBy', [isLoggedIn, isDriver], Driver.respondPassenger);
+router.get('/passenger/nearBy', [isLoggedIn], Driver.getNearByPassenger);
+router.put('/respond/passenger/nearBy', [isLoggedIn], Driver.respondPassenger);
 
-router.get('/ride/history', [isLoggedIn, isDriver], Driver.rideHistory);
+router.get('/ride/history', [isLoggedIn], Driver.rideHistory);
 
 module.exports = router;

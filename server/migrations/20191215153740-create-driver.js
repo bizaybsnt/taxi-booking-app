@@ -30,7 +30,8 @@ module.exports = {
         type: Sequelize.BOOLEAN
       },
       location: {
-        type: Sequelize.JSONB
+        type: Sequelize.JSONB,
+        defaultValue: { lat: 0, lng: 0 }
       },
       createdAt: {
         allowNull: false,

@@ -7,7 +7,6 @@ exports.login = (req, res) => {
   User.findOne({
     where: { email }
   }).then(user => {
-    console.log('User Found: ', user);
     if (user === null) {
       res.status(401).json({
         success: false,
@@ -21,23 +20,24 @@ exports.login = (req, res) => {
 
         let token = jwt.sign(
           {
+            id: user.id,
             email: user.email
           },
-          'super secret',
-          { expiresIn: '129600' }
+          process.env.JWT_SECRET,
+          { expiresIn: '1hr' }
         ); // Signing the token
 
         res.json({
-          sucess: true,
+          success: true,
           err: null,
           token
         });
       } else {
         console.log('Entered Password and Hash do not match!');
         res.status(401).json({
-          sucess: false,
+          success: false,
           token: null,
-          err: 'Entered Password and Hash do not match!'
+          err: 'Entered Password do not match!'
         });
       }
     });
@@ -72,9 +72,7 @@ exports.register = (req, res) => {
 };
 
 exports.getProfile = (req, res) => {
-  User.findOne().then(user => {
-    res.json(user);
-  });
+  res.json(res.locals.user);
 };
 
 exports.getTaxi = (req, res) => {
@@ -93,8 +91,7 @@ exports.bookTaxi = (req, res) => {
 };
 
 exports.rideHistory = (req, res) => {
-  User.findOne().then(user => {
-    const { full_name, email, phone } = user;
-    res.json({ full_name, email, phone });
+  Ride.findAll({ where: { user_id: res.locals.user.id } }).then(ride => {
+    res.json(ride);
   });
 };

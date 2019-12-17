@@ -28,23 +28,22 @@ class userService {
   };
 
   getProfile = async () => {
-    return {
-      fullName: 'Bijay Basnet',
-      address: 'Dhapakhel',
-      email: 'bsnt.bizay@gmail.com'
-    };
+    try {
+      let res = await Api.get('/user/profile');
+      return res.body;
+    } catch (error) {
+      return false;
+    }
   };
 
   getRideHistory = async () => {
-    return [
-      {
-        time: '2019-12-08 08:30:49',
-        from: { lat: 27.695051796192736, lng: 85.34427523612977 },
-        to: { lat: 27.69491405083671, lng: 85.34598112106325 },
-        distance: '22m',
-        remark: { rideStatus: 'requested' }
-      }
-    ];
+
+    try {
+      let res = await Api.get('/user/ride/history');
+      return res.body;
+    } catch (error) {
+      return false;
+    }
   };
 
   postRideRequest = async data => {};

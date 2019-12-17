@@ -5,78 +5,75 @@ import querystring from 'querystring';
 var cache = [];
 
 class Api {
-	constructor() {
-        Http.defaults.baseURL = API_URL;
-		Http.defaults.timeout = 300000;
-	}
+  constructor() {
+    Http.defaults.baseURL = API_URL;
+    Http.defaults.timeout = 300000;
+  
+  }
 
-	async get(resource, params = {}) {
-		var config = {
-			headers: {
-                'Content-Type': 'application/octet-stream/x-www-form-urlencoded;charset=utf-8',                
-                'Access-Control-Allow-Origin': '*'
-			}
-		};
-		try {
+  async get(resource, params = {}) {
+    Http.defaults.headers = {
+      'x-access-token': localStorage.getItem('token'),
+    };
+    var config = {
+      headers: {
+        'x-access-token': localStorage.getItem('token'),
+        Authorization: 'Bearer ' + localStorage.getItem('token')
+      }
+    };
+    try {
+      let res = {};
+      res = await Http.get(resource, params, config);
 
-			let res = {};
-			let key = encodeURIComponent(resource + JSON.stringify(params));
+      return this.successResponse(res);
+    } catch (error) {
+      return this.errorResponse(error);
+    }
+  }
 
-			if (cache[key]) {
-				res = cache[key];
-			} else {
-				res = await Http.get(resource, params, config);
-				cache[key] = res;
-			}
+  async post(resource, params) {
+    Http.defaults.headers = {
+      'x-access-token': localStorage.getItem('token'),
+    };
+    var config = {
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'
+      }
+    };
 
-			return this.successResponse(res);
-		} catch (error) {
-			return this.errorResponse(error);
-		}
-	}
+    try {
+      let response = await Http.post(
+        resource,
+        querystring.stringify(params),
+        config
+      );
+      return this.successResponse(response);
+    } catch (error) {
+      return this.errorResponse(error);
+    }
+  }
 
-	async post(resource, params) {
-		var config = {
-			headers: {
-				'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8',
-				'Access-Control-Allow-Origin': '*'
-			}
-		};
+  errorResponse(error) {
+    if (error.response) {
+      return this.response(error.response);
+    } else {
+      return this.response({
+        data: 'Network Error'
+      });
+    }
+  }
 
-		try {
-			let response = await Http.post(resource, querystring.stringify(params), config);
-			return this.successResponse(response);
-		} catch (error) {
-			return this.errorResponse(error);
-		}
-	}
+  successResponse(response) {
+    return this.response(response);
+  }
 
-	errorResponse(error) {
-		if (error.response) {
-			return this.response(error.response);
-		} else {
-			return this.response({
-				data: 'Network Error'
-			});
-		}
-	}
-
-	successResponse(response) {
-		return this.response(response);
-	}
-
-	response({
-		data,
-		status,
-		headers
-	}) {
-		return {
-			body: data,
-			status,
-			headers
-		};
-	}
-
+  response({ data, status, headers }) {
+    return {
+      body: data,
+      status,
+      headers
+    };
+  }
 }
 
 export default new Api();

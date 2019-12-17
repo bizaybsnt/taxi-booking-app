@@ -8,7 +8,7 @@ module.exports = {
           to: 'Lagankhel',
           user_id: 1,
           driver_id: 1,
-          remarks: JSON.stringify({ rideStatus: 'called' })
+          remarks: JSON.stringify({ rideStatus: 'requested' })
         }
       ],
       {}

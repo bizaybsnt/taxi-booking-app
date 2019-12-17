@@ -10,7 +10,6 @@ exports.login = (req, res) => {
   Driver.findOne({
     where: { email }
   }).then(driver => {
-    console.log('driver Found: ', driver);
     if (driver === null) {
       res.status(401).json({
         success: false,
@@ -24,14 +23,15 @@ exports.login = (req, res) => {
 
         let token = jwt.sign(
           {
+            id: driver.id,
             email: driver.email
           },
-          'super secret',
-          { expiresIn: 129600 }
+          process.env.JWT_SECRET,
+          { expiresIn: '1hr' }
         ); // Signing the token
 
         res.json({
-          sucess: true,
+          success: true,
           err: null,
           token
         });
@@ -40,7 +40,7 @@ exports.login = (req, res) => {
         res.status(401).json({
           success: false,
           token: null,
-          err: 'Entered Password and Hash do not match!'
+          err: 'Entered Password do not match!'
         });
       }
     });
@@ -82,7 +82,7 @@ exports.register = (req, res) => {
           availability,
           location
         }).then(result => {
-          res.json({ success: "Driver user created successfully", err: null });
+          res.json({ success: 'Driver user created successfully', err: null });
         });
       });
     }
@@ -90,9 +90,7 @@ exports.register = (req, res) => {
 };
 
 exports.getProfile = (req, res) => {
-  Driver.findOne().then(user => {
-    res.json(user);
-  });
+  res.json(res.locals.user);
 };
 
 exports.getNearByPassenger = (req, res) => {
@@ -110,8 +108,7 @@ exports.respondPassenger = (req, res) => {
 };
 
 exports.rideHistory = (req, res) => {
-  Driver.findOne().then(user => {
-    const { full_name, email, phone } = user;
-    res.json({ full_name, email, phone });
+  Ride.findAll({ where: { driver_id: res.locals.user.id } }).then(ride => {
+    res.json(ride);
   });
 };

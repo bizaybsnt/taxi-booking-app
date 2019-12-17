@@ -1,9 +1,30 @@
 import React, { Component } from 'react';
 import { Header } from '../../components/header';
-import { Link } from 'react-router-dom';
+import authService from '../../services/authService';
+import driverService from '../../services/driverService';
+import userService from '../../services/userService';
 
 class Profile extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { user: {}, rideHistory: [] };
+  }
+
+  componentDidMount() {
+    if (authService.isDriver) {
+      driverService.getProfile().then(user => this.setState({ user }));
+      driverService
+        .getRideHistory()
+        .then(rideHistory => this.setState({ rideHistory }));
+    } else if (authService.isPassenger) {
+      userService.getProfile().then(user => this.setState({ user }));
+      userService
+        .getRideHistory()
+        .then(rideHistory => this.setState({ rideHistory }));
+    }
+  }
   render() {
+    const { user, rideHistory } = this.state;
     return (
       <React.Fragment>
         <Header />
@@ -13,9 +34,11 @@ class Profile extends Component {
           </u>
           <div className="row">
             <div className="col-md-6">
-              <h6>Bijay Basnet</h6>
-              <h6>Dhapakhel, Lalitpur</h6>
-              <h6>bsnt.bizay@gmail.com</h6>
+              <h6>{user.full_name}</h6>
+              <h6>{user.phone}</h6>
+              <h6>{user.email}</h6>
+              <h6>{user.license_no && `License Number: ${user.license_no}`}</h6>
+              <h6>{user.taxi_no && `Taxi Number: ${user.taxi_no}`}</h6>
             </div>
             <div className="col-md-12">
               <u>
@@ -30,26 +53,18 @@ class Profile extends Component {
                     <th>Time</th>
                     <th>From</th>
                     <th>To</th>
-                    <th>Distance</th>
                     <th>Remarks</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <td>2019-12-08 08:30:49</td>
-                    <td>[21,23]</td>
-                    <td>[21,22]</td>
-                    <td>22m</td>
-                    <td>Completed</td>
-                  </tr>
-
-                  <tr>
-                    <td>2019-12-08 08:30:49</td>
-                    <td>[21,23]</td>
-                    <td>[21,22]</td>
-                    <td>22m</td>
-                    <td>Cancelled</td>
-                  </tr>
+                  {rideHistory.map(ride => (
+                    <tr key={ride.id}>
+                      <td>{ride.createdAt}</td>
+                      <td>{ride.from}</td>
+                      <td>{ride.to}</td>
+                      <td>{ride.remarks.rideStatus}</td>
+                    </tr>
+                  ))}
                 </tbody>
               </table>
             </div>

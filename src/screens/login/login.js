@@ -1,19 +1,19 @@
-import React from 'react';
-import styled from 'styled-components';
+import React, { useState } from 'react';
 import { useHistory, useLocation, Link } from 'react-router-dom';
 import { Form, Button } from 'react-bootstrap';
 
 import authService from '../../services/authService';
-import useSignUpForm from './signUpHooks';
 
 const Login = () => {
   const history = useHistory();
   const location = useLocation();
-  const { inputs, handleInputChange, handleSubmit } = useSignUpForm();
+
+  const [email, setEmail] = useState('john@gmail.com');
+  const [password, setPassword] = useState('password');
 
   const { from } = location.state || { from: { pathname: '/' } };
-  const login = userType => {
-    authService.authenticate({ userType, inputs }, () => {
+  const handleLogin = (userType, data) => {
+    authService.authenticate({ userType, data }, () => {
       history.replace(from);
     });
   };
@@ -26,8 +26,9 @@ const Login = () => {
           <Form.Control
             type="email"
             placeholder="Enter email"
-            onChange={handleInputChange}
-            value={inputs.email}
+            name="email"
+            onChange={d => setEmail(d.target.value)}
+            value={email}
             required
           />
         </Form.Group>
@@ -36,15 +37,22 @@ const Login = () => {
           <Form.Control
             type="password"
             placeholder="Password"
-            onChange={handleInputChange}
-            value={inputs.firstName}
+            name="password"
+            onChange={d => setPassword(d.target.value)}
+            value={password}
             required
           />
         </Form.Group>
-        <Button variant="primary" onClick={() => login('passenger')}>
+        <Button
+          variant="primary"
+          onClick={() => handleLogin('user', { email, password })}
+        >
           Login as User
         </Button>{' '}
-        <Button variant="primary" onClick={() => login('driver')}>
+        <Button
+          variant="primary"
+          onClick={() => handleLogin('driver', { email, password })}
+        >
           Login as Driver
         </Button>
         <hr />
